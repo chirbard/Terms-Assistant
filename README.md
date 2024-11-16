@@ -1,5 +1,14 @@
 # Chrome extension
 
+## Creating env file
+
+Create a file `/.env` in root folder (not src folder) with contents
+
+```
+VITE_PROJECT_ID=<watsonx-project-id>
+VITE_API_KEY=<watsonx-api-key>
+```
+
 ## Compiling project files
 
 ```sh
