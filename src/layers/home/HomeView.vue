@@ -4,6 +4,11 @@
     <p>Welcome to the Home page!</p>
     <p>last request: {{ lastRequest }}</p>
     <p>response: {{ response }}</p>
+    <li v-for="message in messages">
+      <!-- {{ message.role }}: {{ message.content[0].text }} -->
+      <span v-if="message.role === 'assistant'">Assistant: {{ formatMessageContent(message.content) }}</span>
+      <span v-if="message.role === 'user'">Me: {{ formatMessageContent(message.content) }}</span>
+    </li>
 
 
     <input type="text" v-model="input" />

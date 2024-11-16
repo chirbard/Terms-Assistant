@@ -15,6 +15,30 @@ export default defineComponent({
       input: "",
       lastRequest: "",
       response: "",
+      messages: [
+        {
+          role: "user",
+          content: [
+            {
+              type: "text",
+              text: "Who won the world series in 2020?",
+            },
+          ],
+        },
+        {
+          role: "assistant",
+          content: "The Los Angeles Dodgers won the World Series in 2020.",
+        },
+        {
+          role: "user",
+          content: [
+            {
+              type: "text",
+              text: "Where was it played?",
+            },
+          ],
+        },
+      ],
     };
   },
   methods: {
@@ -37,6 +61,13 @@ export default defineComponent({
           })
           .then(() => console.log("Injected a function!"));
       });
+    },
+    formatMessageContent(content: string | { type: string; text: string }[]) {
+      if (typeof content === "string") {
+        return content;
+      } else if (Array.isArray(content)) {
+        return content[0].text;
+      }
     },
     request() {
       this.lastRequest = this.input;
