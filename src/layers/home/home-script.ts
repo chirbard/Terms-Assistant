@@ -18,8 +18,6 @@ export default defineComponent({
   data() {
     return {
       input: "",
-      lastRequest: "",
-      response: "",
       messages: [] as Message[],
     };
   },
@@ -52,7 +50,7 @@ export default defineComponent({
       }
     },
     request() {
-      this.lastRequest = this.input;
+      const requestText: string = this.input;
       this.input = "";
 
       this.messages.push({
@@ -60,7 +58,7 @@ export default defineComponent({
         content: [
           {
             type: "text",
-            text: this.lastRequest,
+            text: requestText,
           },
         ],
       });
@@ -89,11 +87,11 @@ export default defineComponent({
         .then(async (response) => {
           console.log(response);
           const json = await response.json();
-          this.response = json.choices[0].message.content;
+          const responseContent: string = json.choices[0].message.content;
 
           this.messages.push({
             role: "assistant",
-            content: this.response,
+            content: responseContent,
           });
           console.log(json);
         })
