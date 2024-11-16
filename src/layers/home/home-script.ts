@@ -7,7 +7,30 @@ export default defineComponent({
   setup() {
     return {};
   },
+  mounted() {
+    this.init();
+  },
   methods: {
+    init() {
+      chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
+        const tab = tabs[0];
+
+        function printBody() {
+          const body = document.body.innerText;
+          console.log(body);
+        }
+
+        if (tab.id === undefined) {
+          return;
+        }
+        chrome.scripting
+          .executeScript({
+            target: { tabId: tab.id },
+            func: printBody,
+          })
+          .then(() => console.log("Injected a function!"));
+      });
+    },
     request() {
       const requestBody: string = `{
         "model_id": "meta-llama/llama-3-8b-instruct",
