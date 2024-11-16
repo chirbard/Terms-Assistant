@@ -21,13 +21,16 @@ export default class ApiService {
   ): Promise<Response> {
     console.log(import.meta.env.VITE_API_KEY);
     console.log(import.meta.env.VITE_PROJECT_ID);
+    console.log(import.meta.env.VITE_TEMP_ACCESS_TOKEN);
     return new Promise<Response>(async (resolve, reject) => {
       try {
         const result = await fetch(url, {
           method: "POST",
           body: body,
           headers: {
-            "Content-type": "application/x-www-form-urlencoded",
+            "Content-type": "application/json",
+            Accept: "application/json",
+            Authorization: `Bearer ${import.meta.env.VITE_TEMP_ACCESS_TOKEN}`,
           },
         });
 
