@@ -42,34 +42,34 @@ export default defineComponent({
       this.lastRequest = this.input;
       this.input = "";
 
-      const requestBody: string = `{
-        "model_id": "meta-llama/llama-3-8b-instruct",
-        "project_id": "${import.meta.env.VITE_PROJECT_ID}",
-        "messages": [
+      const requestBody: Object = {
+        model_id: "meta-llama/llama-3-8b-instruct",
+        project_id: import.meta.env.VITE_PROJECT_ID,
+        messages: [
           {
-            "role": "system",
-            "content": "You are an helpful assistant."
+            role: "system",
+            content: "You are an helpful assistant.",
           },
           {
-            "role": "user",
-            "content": [
+            role: "user",
+            content: [
               {
-                "type": "text",
-                "text": "${this.lastRequest}"
-              }
-            ]
-          }
+                type: "text",
+                text: this.lastRequest,
+              },
+            ],
+          },
         ],
-        "max_tokens": 30,
-        "temperature": 0,
-        "time_limit": 1000
-      }`;
+        max_tokens: 30,
+        temperature: 0,
+        time_limit: 1000,
+      };
 
       const apiService = ApiService.getInstance();
       apiService
         .postRequestWithStringBody(
           "https://eu-de.ml.cloud.ibm.com/ml/v1/text/chat?version=2023-10-25",
-          requestBody
+          JSON.stringify(requestBody)
         )
         .then(async (response) => {
           console.log(response);
