@@ -20,5 +20,5 @@
     "cookies",
     "nativeMessaging"
   ],
-  "host_permissions": ["https://*.cloud.ibm.com/*"]
+  "host_permissions": ["https://*.cloud.ibm.com/*", "<all_urls>"]
 }
