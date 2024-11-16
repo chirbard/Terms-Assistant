@@ -34,12 +34,14 @@ export default defineComponent({
   padding: 0px;
   display: flex;
   flex-direction: column;
-  /* justify-content: flex-start; */
-  /* align-items: flex-start; */
+  align-items: flex-start;
 }
 
 li {
   list-style-type: none;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
 }
 
 .message-bubble {
@@ -52,19 +54,17 @@ li {
 .assistant {
   background-color: #f0f0f0;
   margin-right: 16px;
-  /* align-self: flex-start; */
-  /* justify-self: start; */
 }
 
 .user {
-  background-color: #f0f0f0;
+  background-color: #60a6f1;
+  color: #fff;
   margin-left: 16px;
-  /* align-self: flex-end; */
-  /* justify-self: end; */
+  align-self: flex-end;
 }
 
 input {
-  margin: 10px;
+  margin: 10px 0;
   padding: 10px;
   border-radius: 10px;
 }
