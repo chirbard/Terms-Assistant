@@ -19,7 +19,8 @@ export default class ApiService {
     url: string,
     body: string
   ): Promise<Response> {
-    console.log(import.meta.env.VITE_TEST_VAR);
+    console.log(import.meta.env.VITE_API_KEY);
+    console.log(import.meta.env.VITE_PROJECT_ID);
     return new Promise<Response>(async (resolve, reject) => {
       try {
         const result = await fetch(url, {
