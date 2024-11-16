@@ -18,21 +18,8 @@ export default defineComponent({
   data() {
     return {
       input: "",
-      messages: [
-        {
-          role: "assistant",
-          content: "The Los Angeles Dodgers won the World Series in 2020.",
-        },
-        {
-          role: "user",
-          content: [
-            {
-              type: "text",
-              text: "Where was it played?",
-            },
-          ],
-        },
-      ] as Message[],
+      pageBody: "",
+      messages: [] as Message[],
     };
   },
   methods: {
