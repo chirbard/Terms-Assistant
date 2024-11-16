@@ -1,0 +1,23 @@
+{
+  "name": "Terms Assistant",
+  "version": "0.0.0",
+  "description": "Terms Chrome extension",
+  "manifest_version": 3,
+  "background": {
+    "service_worker": "src/background.ts"
+  },
+  "action": {
+    "default_popup": "index.html"
+  },
+  "permissions": [
+    "tabs",
+    "printerProvider",
+    "notifications",
+    "activeTab",
+    "scripting",
+    "identity",
+    "storage",
+    "cookies",
+    "nativeMessaging"
+  ]
+}
