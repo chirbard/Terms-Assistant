@@ -1,6 +1,11 @@
 import { defineComponent } from "vue";
 import ApiService from "../../core/util/api-service";
 
+interface Message {
+  role: string;
+  content: string | { type: string; text: string }[];
+}
+
 export default defineComponent({
   name: "HomeView",
   emits: [],
@@ -15,30 +20,7 @@ export default defineComponent({
       input: "",
       lastRequest: "",
       response: "",
-      messages: [
-        {
-          role: "user",
-          content: [
-            {
-              type: "text",
-              text: "Who won the world series in 2020?",
-            },
-          ],
-        },
-        {
-          role: "assistant",
-          content: "The Los Angeles Dodgers won the World Series in 2020.",
-        },
-        {
-          role: "user",
-          content: [
-            {
-              type: "text",
-              text: "Where was it played?",
-            },
-          ],
-        },
-      ],
+      messages: [] as Message[],
     };
   },
   methods: {
@@ -73,6 +55,16 @@ export default defineComponent({
       this.lastRequest = this.input;
       this.input = "";
 
+      this.messages.push({
+        role: "user",
+        content: [
+          {
+            type: "text",
+            text: this.lastRequest,
+          },
+        ],
+      });
+
       const requestBody: Object = {
         model_id: "meta-llama/llama-3-8b-instruct",
         project_id: import.meta.env.VITE_PROJECT_ID,
@@ -81,15 +73,7 @@ export default defineComponent({
             role: "system",
             content: "You are an helpful assistant.",
           },
-          {
-            role: "user",
-            content: [
-              {
-                type: "text",
-                text: this.lastRequest,
-              },
-            ],
-          },
+          ...this.messages,
         ],
         max_tokens: 30,
         temperature: 0,
@@ -106,6 +90,11 @@ export default defineComponent({
           console.log(response);
           const json = await response.json();
           this.response = json.choices[0].message.content;
+
+          this.messages.push({
+            role: "assistant",
+            content: this.response,
+          });
           console.log(json);
         })
         .catch((error) => {
