@@ -1,6 +1,6 @@
 export default class ApiService {
   private static instance: ApiService;
-  private constructor() {}
+  private constructor() { }
 
   /**
    * @returns instance of AuthenticationApiService
@@ -19,9 +19,6 @@ export default class ApiService {
     url: string,
     body: string
   ): Promise<Response> {
-    console.log(import.meta.env.VITE_API_KEY);
-    console.log(import.meta.env.VITE_PROJECT_ID);
-    console.log(import.meta.env.VITE_TEMP_ACCESS_TOKEN);
     return new Promise<Response>(async (resolve, reject) => {
       try {
         const result = await fetch(url, {

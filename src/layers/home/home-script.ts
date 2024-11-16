@@ -15,27 +15,37 @@ export default defineComponent({
       input: "",
       lastRequest: "",
       response: "",
+      pageBody: " ",
     };
   },
   methods: {
     init() {
+      function cleanString(input: string) {
+        input = input.replace(/"/g, "");
+        input = input.replace(/(\r\n|\n|\r)/gm, " ");
+        return input;
+      }
+
       chrome.tabs.query({ active: true, currentWindow: true }, (tabs) => {
         const tab = tabs[0];
 
         function printBody() {
-          const body = document.body.innerText;
-          console.log(body);
+          return document.body.innerText;
         }
 
-        if (tab.id === undefined) {
+        if (!tab.id) {
           return;
         }
-        chrome.scripting
-          .executeScript({
-            target: { tabId: tab.id },
-            func: printBody,
-          })
-          .then(() => console.log("Injected a function!"));
+
+        chrome.scripting.executeScript({
+          target: { tabId: tab.id },
+          func: printBody,
+        }, (result) => {
+          if (result && result[0]) {
+            this.pageBody = cleanString(result[0].result ?? " ");
+            console.log(this.pageBody);
+          }
+        });
       });
     },
     request() {
@@ -48,7 +58,7 @@ export default defineComponent({
         messages: [
           {
             role: "system",
-            content: "You are an helpful assistant.",
+            content: `You are Toby a Terms and Conditions assistant. You carefully read and interpret the input Terms and Conditions and answer questions based on the content. You are helpful and harmless, and you follow ethical guidelines and promote positive behavior. You respond to any questions related to the Terms and Conditions text provided to you. Here are the Terms and Conditions: ${this.pageBody}`,
           },
           {
             role: "user",
