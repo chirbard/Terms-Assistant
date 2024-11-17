@@ -19,7 +19,21 @@ export default defineComponent({
     return {
       input: "",
       pageBody: "",
-      messages: [] as Message[],
+      messages: [
+        // {
+        //   role: "assistant",
+        //   content: "Hello! How can I help you today?",
+        // },
+        // {
+        //   role: "user",
+        //   content: [
+        //     {
+        //       type: "text",
+        //       text: "What are the terms and conditions?",
+        //     },
+        //   ],
+        // },
+      ] as Message[],
     };
   },
   methods: {
@@ -111,6 +125,20 @@ export default defineComponent({
         .catch((error) => {
           console.error(error);
         });
+    },
+    autoResizeTextarea(event: Event) {
+      const textarea = event.target;
+      if (!(textarea instanceof HTMLTextAreaElement)) {
+        return;
+      }
+      textarea.style.height = "auto";
+      console.log(textarea.scrollHeight);
+      const newHeight: number = textarea.scrollHeight - 20;
+      textarea.style.height = `${newHeight}px`;
+
+      if (textarea.value === "") {
+        textarea.style.height = "20px";
+      }
     },
   },
 });
