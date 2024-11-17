@@ -14,7 +14,9 @@
   <div class="input-footer">
     <textarea type="text" v-model="input" placeholder="Ask anything" class="input-text glassmorphism"
       @input="autoResizeTextarea" />
-    <button @click="request"></button>
+    <button @click="request">
+      <img src="./../../site/assets/svg/up-arrow.svg" alt="up arrow icon" />
+    </button>
   </div>
 
 
@@ -152,6 +154,9 @@ li {
   border-radius: 50%;
   background-color: #21D3D3;
   border: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .input-footer button:hover {
