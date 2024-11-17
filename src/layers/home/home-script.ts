@@ -71,9 +71,9 @@ export default defineComponent({
     },
     formatMessageContent(content: string | { type: string; text: string }[]) {
       if (typeof content === "string") {
-        return content;
+        return content.replace(/\n/g, "<br>");
       } else if (Array.isArray(content)) {
-        return content[0].text;
+        return content[0].text.replace(/\n/g, "<br>");
       }
     },
     request() {

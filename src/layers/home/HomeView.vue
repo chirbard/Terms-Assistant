@@ -4,9 +4,9 @@
   </div>
   <div class="chat-window">
     <li v-for="message in messages">
-      <div class="message-bubble assistant glassmorphism" v-if="message.role === 'assistant'">{{
-        formatMessageContent(message.content) }}</div>
-      <div class="message-bubble user" v-if="message.role === 'user'">{{ formatMessageContent(message.content) }}
+      <div class="message-bubble assistant glassmorphism" v-if="message.role === 'assistant'"
+        v-html="formatMessageContent(message.content)"></div>
+      <div class="message-bubble user" v-if="message.role === 'user'" v-html="formatMessageContent(message.content)">
       </div>
     </li>
   </div>
@@ -161,5 +161,9 @@ li {
 
 .input-footer button:hover {
   background-color: #21d3d3c4;
+}
+
+.input-footer button:focus {
+  outline: none;
 }
 </style>
