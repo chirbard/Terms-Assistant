@@ -91,7 +91,7 @@ export default defineComponent({
       });
 
       const requestBody: Object = {
-        model_id: "meta-llama/llama-3-8b-instruct",
+        model_id: "meta-llama/llama-3-1-8b-instruct",
         project_id: import.meta.env.VITE_PROJECT_ID,
         messages: [
           {
@@ -104,7 +104,7 @@ export default defineComponent({
         ],
         max_tokens: 200,
         temperature: 0,
-        time_limit: 10000,
+        time_limit: 20000,
       };
 
       const apiService = ApiService.getInstance();
@@ -139,6 +139,12 @@ export default defineComponent({
 
       if (textarea.value === "") {
         textarea.style.height = "20px";
+      }
+    },
+    handleEnter(event: KeyboardEvent) {
+      if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        this.request();
       }
     },
   },

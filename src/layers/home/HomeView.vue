@@ -13,7 +13,7 @@
 
   <div class="input-footer">
     <textarea type="text" v-model="input" placeholder="Ask anything" class="input-text glassmorphism"
-      @input="autoResizeTextarea" />
+      @input="autoResizeTextarea" @keydown.enter="handleEnter" />
     <button @click="request">
       <img src="./../../site/assets/svg/up-arrow.svg" alt="up arrow icon" />
     </button>
