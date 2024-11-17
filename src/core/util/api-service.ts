@@ -1,6 +1,6 @@
 export default class ApiService {
   private static instance: ApiService;
-  private constructor() { }
+  private constructor() {}
 
   /**
    * @returns instance of AuthenticationApiService

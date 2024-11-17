@@ -63,7 +63,7 @@ export default defineComponent({
           (result) => {
             if (result && result[0]) {
               this.pageBody = cleanString(result[0].result ?? " ");
-              console.log(this.pageBody);
+              // console.log(this.pageBody);
             }
           }
         );
@@ -96,13 +96,15 @@ export default defineComponent({
         messages: [
           {
             role: "system",
-            content: `You are Toby a Terms and Conditions assistant. You carefully read and interpret the input Terms and Conditions and answer questions based on the content. You are helpful and harmless, and you follow ethical guidelines and promote positive behavior. You respond to any questions related to the Terms and Conditions text provided to you. Here are the Terms and Conditions: ${this.pageBody}`,
+            content:
+              "You are Toby a Terms and Conditions assistant. You carefully read and interpret the input Terms and Conditions and answer questions based on the content. You are helpful and harmless, and you follow ethical guidelines and promote positive behavior. You respond to any questions related to the Terms and Conditions text provided to you. Here are the Terms and Conditions: " +
+              this.pageBody,
           },
           ...this.messages,
         ],
-        max_tokens: 30,
+        max_tokens: 200,
         temperature: 0,
-        time_limit: 1000,
+        time_limit: 10000,
       };
 
       const apiService = ApiService.getInstance();
@@ -132,7 +134,6 @@ export default defineComponent({
         return;
       }
       textarea.style.height = "auto";
-      console.log(textarea.scrollHeight);
       const newHeight: number = textarea.scrollHeight - 20;
       textarea.style.height = `${newHeight}px`;
 

@@ -50,10 +50,6 @@ export default defineComponent({
 }
 
 .glassmorphism {
-  /* background: #ffffff63;
-  backdrop-filter: blur(10px);
-  border: 1px solid #BFDBDC;
-  border-radius: 10px; */
   background: rgba(255, 255, 255, 0.2);
   border-radius: 16px;
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
