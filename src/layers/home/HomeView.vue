@@ -52,22 +52,43 @@ export default defineComponent({
 .glassmorphism {
   background: rgba(255, 255, 255, 0.2);
   border-radius: 16px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.05);
   backdrop-filter: blur(5px);
   -webkit-backdrop-filter: blur(5px);
-  border: 1px solid rgba(255, 255, 255, 0.5);
+  border: 1px solid #BFDBDC;
   color: #004E66;
   font-family: "Poppins", sans-serif;
 }
 
 .chat-window {
-  height: 200px;
+  height: fit-content;
+  min-height: 200px;
+  max-height: 400px;
   width: 100%;
   overflow: auto;
-  padding: 0px;
+  padding: 8px 0px;
+  margin-bottom: 4px;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+}
+
+::-webkit-scrollbar {
+  width: 4px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #21d3d332;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #004E66;
 }
 
 li {
@@ -117,24 +138,6 @@ li {
   min-height: 20px;
   height: 20px;
   max-height: 60px;
-}
-
-.input-footer .input-text::-webkit-scrollbar {
-  width: 6px;
-}
-
-.input-footer .input-text::-webkit-scrollbar-track {
-  background: transparent;
-  border-radius: 10px;
-}
-
-.input-footer .input-text::-webkit-scrollbar-thumb {
-  background: #21d3d350;
-  border-radius: 10px;
-}
-
-.input-footer .input-text::-webkit-scrollbar-thumb:hover {
-  background: #004E66;
 }
 
 .input-footer .input-text:focus {
