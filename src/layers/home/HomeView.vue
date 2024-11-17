@@ -4,9 +4,9 @@
   </div>
   <div class="chat-window">
     <li v-for="message in messages">
-      <div class="message-bubble assistant glassmorphism" v-if="message.role === 'assistant'">Assistant: {{
+      <div class="message-bubble assistant glassmorphism" v-if="message.role === 'assistant'">{{
         formatMessageContent(message.content) }}</div>
-      <div class="message-bubble user" v-if="message.role === 'user'">Me: {{ formatMessageContent(message.content) }}
+      <div class="message-bubble user" v-if="message.role === 'user'">{{ formatMessageContent(message.content) }}
       </div>
     </li>
   </div>

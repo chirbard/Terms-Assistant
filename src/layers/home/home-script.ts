@@ -20,10 +20,10 @@ export default defineComponent({
       input: "",
       pageBody: "",
       messages: [
-        // {
-        //   role: "assistant",
-        //   content: "Hello! How can I help you today?",
-        // },
+        {
+          role: "assistant",
+          content: "Hello! How can I help you today?",
+        },
         // {
         //   role: "user",
         //   content: [
