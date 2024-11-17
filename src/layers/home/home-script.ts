@@ -20,10 +20,10 @@ export default defineComponent({
       input: "",
       pageBody: "",
       messages: [
-        // {
-        //   role: "assistant",
-        //   content: "Hello! How can I help you today?",
-        // },
+        {
+          role: "assistant",
+          content: "Hello! How can I help you today?",
+        },
         // {
         //   role: "user",
         //   content: [
@@ -63,7 +63,7 @@ export default defineComponent({
           (result) => {
             if (result && result[0]) {
               this.pageBody = cleanString(result[0].result ?? " ");
-              console.log(this.pageBody);
+              // console.log(this.pageBody);
             }
           }
         );
@@ -71,9 +71,9 @@ export default defineComponent({
     },
     formatMessageContent(content: string | { type: string; text: string }[]) {
       if (typeof content === "string") {
-        return content;
+        return content.replace(/\n/g, "<br>");
       } else if (Array.isArray(content)) {
-        return content[0].text;
+        return content[0].text.replace(/\n/g, "<br>");
       }
     },
     request() {
@@ -91,18 +91,20 @@ export default defineComponent({
       });
 
       const requestBody: Object = {
-        model_id: "meta-llama/llama-3-8b-instruct",
+        model_id: "meta-llama/llama-3-1-8b-instruct",
         project_id: import.meta.env.VITE_PROJECT_ID,
         messages: [
           {
             role: "system",
-            content: `You are Toby a Terms and Conditions assistant. You carefully read and interpret the input Terms and Conditions and answer questions based on the content. You are helpful and harmless, and you follow ethical guidelines and promote positive behavior. You respond to any questions related to the Terms and Conditions text provided to you. Here are the Terms and Conditions: ${this.pageBody}`,
+            content:
+              "You are Toby a Terms and Conditions assistant. You carefully read and interpret the input Terms and Conditions and answer questions based on the content. You are helpful and harmless, and you follow ethical guidelines and promote positive behavior. You respond to any questions related to the Terms and Conditions text provided to you. Here are the Terms and Conditions: " +
+              this.pageBody,
           },
           ...this.messages,
         ],
-        max_tokens: 30,
+        max_tokens: 200,
         temperature: 0,
-        time_limit: 1000,
+        time_limit: 20000,
       };
 
       const apiService = ApiService.getInstance();
@@ -132,12 +134,17 @@ export default defineComponent({
         return;
       }
       textarea.style.height = "auto";
-      console.log(textarea.scrollHeight);
       const newHeight: number = textarea.scrollHeight - 20;
       textarea.style.height = `${newHeight}px`;
 
       if (textarea.value === "") {
         textarea.style.height = "20px";
+      }
+    },
+    handleEnter(event: KeyboardEvent) {
+      if (event.key === "Enter" && !event.shiftKey) {
+        event.preventDefault();
+        this.request();
       }
     },
   },

@@ -1,6 +1,6 @@
 export default class ApiService {
   private static instance: ApiService;
-  private constructor() { }
+  private constructor() {}
 
   /**
    * @returns instance of AuthenticationApiService
@@ -29,6 +29,7 @@ export default class ApiService {
             Accept: "application/json",
             Authorization: `Bearer ${import.meta.env.VITE_TEMP_ACCESS_TOKEN}`,
           },
+          credentials: "omit",
         });
 
         resolve(result);
