@@ -1,4 +1,5 @@
-# Chrome extension
+# termsprint
+![termsprint-cover](https://github.com/user-attachments/assets/d1bcd8d7-b1e8-4d35-8e68-1fb457ecb53d)
 
 ## Creating env file
 
