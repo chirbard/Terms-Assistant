@@ -1,5 +1,7 @@
 import { defineComponent } from "vue";
 import ApiService from "../../core/util/api-service";
+import AuthService from "../../core/util/auth-service";
+import StorageService from "../../core/util/storage-service";
 
 interface Message {
   role: string;
@@ -76,7 +78,7 @@ export default defineComponent({
         return content[0].text.replace(/\n/g, "<br>");
       }
     },
-    request() {
+    async request() {
       const requestText: string = this.input;
       this.input = "";
 
@@ -107,26 +109,51 @@ export default defineComponent({
         time_limit: 20000,
       };
 
-      const apiService = ApiService.getInstance();
-      apiService
-        .postRequestWithStringBody(
-          "https://eu-de.ml.cloud.ibm.com/ml/v1/text/chat?version=2023-10-25",
-          JSON.stringify(requestBody)
-        )
-        .then(async (response) => {
-          console.log(response);
-          const json = await response.json();
-          const responseContent: string = json.choices[0].message.content;
+      const storageService = StorageService.getInstance();
+      let accessToken = await storageService.getAccessToken();
 
-          this.messages.push({
-            role: "assistant",
-            content: responseContent,
-          });
-          console.log(json);
-        })
-        .catch((error) => {
-          console.error(error);
-        });
+      if (await this.modelRequest(requestBody, accessToken)) {
+        return;
+      }
+      const authService = AuthService.getInstance();
+      accessToken = await authService.getAccessToken();
+      await storageService.setAccessToken(accessToken);
+      this.modelRequest(requestBody, accessToken);
+    },
+    /**
+     * @returns false if access token expired and needs to be refreshed
+     */
+    async modelRequest(
+      requestBody: Object,
+      accessToken: string
+    ): Promise<boolean> {
+      const apiService = ApiService.getInstance();
+      let result: Response;
+      try {
+        result = await apiService.postRequestWithStringBody(
+          "https://eu-de.ml.cloud.ibm.com/ml/v1/text/chat?version=2023-10-25",
+          JSON.stringify(requestBody),
+          accessToken
+        );
+      } catch (error) {
+        console.error(error);
+        return true;
+      }
+
+      if (result.status === 401) {
+        console.log("Access token expired");
+        return false;
+      }
+
+      const json = await result.json();
+      const responseContent: string = json.choices[0].message.content;
+
+      this.messages.push({
+        role: "assistant",
+        content: responseContent,
+      });
+      console.log(json);
+      return true;
     },
     autoResizeTextarea(event: Event) {
       const textarea = event.target;

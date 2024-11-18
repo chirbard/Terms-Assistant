@@ -3,7 +3,7 @@ export default class ApiService {
   private constructor() {}
 
   /**
-   * @returns instance of AuthenticationApiService
+   * @returns instance of ApiService
    */
   static getInstance(): ApiService {
     if (!ApiService.instance) {
@@ -12,12 +12,34 @@ export default class ApiService {
     return ApiService.instance;
   }
 
+  public accessTokenRequest(): Promise<Response> {
+    const apiKey: string = import.meta.env.VITE_API_KEY;
+    const url = `https://iam.cloud.ibm.com/identity/token?grant_type=urn:ibm:params:oauth:grant-type:apikey&apikey=${apiKey}`;
+    return new Promise<Response>(async (resolve, reject) => {
+      try {
+        const result = await fetch(url, {
+          method: "POST",
+          headers: {
+            "Content-type": "application/x-www-form-urlencoded",
+          },
+          credentials: "omit",
+        });
+
+        resolve(result);
+      } catch (error) {
+        console.error(error);
+        reject(error);
+      }
+    });
+  }
+
   /**
    * @returns response from post request
    */
   public postRequestWithStringBody(
     url: string,
-    body: string
+    body: string,
+    accessToken: string
   ): Promise<Response> {
     return new Promise<Response>(async (resolve, reject) => {
       try {
@@ -27,7 +49,7 @@ export default class ApiService {
           headers: {
             "Content-type": "application/json",
             Accept: "application/json",
-            Authorization: `Bearer ${import.meta.env.VITE_TEMP_ACCESS_TOKEN}`,
+            Authorization: `Bearer ${accessToken}`,
           },
           credentials: "omit",
         });
